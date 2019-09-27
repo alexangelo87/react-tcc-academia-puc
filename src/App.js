@@ -64,6 +64,7 @@ function App(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [token, setToken] = React.useState('');
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
@@ -91,70 +92,72 @@ function App(props) {
       </List>
     </div>
   );
-
-  return (
-    <Router>
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color={primary}
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              Academia NewGeneration
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              ModalProps={{
-                keepMounted: true // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <div>
-            <Route path="/" exact component={Alunos} />
-            <Route path="/alunos" component={Alunos} />
-            <Route path="/aulas" component={Aulas} />
-            <Route path="/login" component={Login} />
-          </div>
-        </main>
-      </div>
-    </Router>
-  );
+  
+  
+    return (
+      <Router>
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar position="fixed" className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                color={primary}
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                className={classes.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap>
+                Academia NewGeneration
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <nav className={classes.drawer} aria-label="mailbox folders">
+            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            <Hidden smUp implementation="css">
+              <Drawer
+                container={container}
+                variant="temporary"
+                anchor={theme.direction === "rtl" ? "right" : "left"}
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                classes={{
+                  paper: classes.drawerPaper
+                }}
+                ModalProps={{
+                  keepMounted: true // Better open performance on mobile.
+                }}
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <Hidden xsDown implementation="css">
+              <Drawer
+                classes={{
+                  paper: classes.drawerPaper
+                }}
+                variant="permanent"
+                open
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </nav>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <div>
+              <Route path="/" exact component={Alunos} />
+              <Route path="/alunos" component={Alunos} />
+              <Route path="/aulas" component={Aulas} />
+              <Route path="/login" component={Login} />
+            </div>
+          </main>
+        </div>
+      </Router>
+    );
+  
 }
 
 App.propTypes = {
