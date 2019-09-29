@@ -18,10 +18,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import './App.css';
-import Alunos from './views/alunos';
+import Alunos from './views/alunos/alunos';
 import Aulas from './views/aulas';
 import Login from './views/login';
 import purple from '@material-ui/core/colors/purple';
+import AlunosCreate from './views/alunos/alunosCreate';
 
 const drawerWidth = 240;
 const primary = purple[500]; // #F44336
@@ -149,7 +150,8 @@ function App(props) {
             <div className={classes.toolbar} />
             <div>
               <Route path="/" exact component={Alunos} />
-              <Route path="/alunos" component={Alunos} />
+              <Route path="/alunos/list" component={Alunos} />
+              <Route path="/alunos/create" component={AlunosCreate} />
               <Route path="/aulas" component={Aulas} />
               <Route path="/login" component={Login} />
             </div>
