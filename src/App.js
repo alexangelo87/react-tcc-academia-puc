@@ -23,6 +23,7 @@ import Aulas from './views/aulas';
 import Login from './views/login';
 import purple from '@material-ui/core/colors/purple';
 import AlunosCreate from './views/alunos/alunosCreate';
+import AlunosDetail from './views/alunos/alunosDetail';
 
 const drawerWidth = 240;
 const primary = purple[500]; // #F44336
@@ -150,8 +151,9 @@ function App(props) {
             <div className={classes.toolbar} />
             <div>
               <Route path="/" exact component={Alunos} />
-              <Route path="/alunos/list" component={Alunos} />
+              {/* <Route path="/alunos" component={Alunos} /> */}
               <Route path="/alunos/create" component={AlunosCreate} />
+              <Route path="/alunos/details/:id" component={AlunosDetail} />
               <Route path="/aulas" component={Aulas} />
               <Route path="/login" component={Login} />
             </div>

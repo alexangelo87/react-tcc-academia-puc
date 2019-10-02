@@ -17,7 +17,6 @@ class Alunos extends Component {
   componentWillMount(){
     axios.get('http://localhost:8000/alunos').then((response) =>{ 
       this.setState({alunos : response.data});
-      console.log(this.state.alunos[6].user.nome)
     });
   }
   getList = () =>{
@@ -26,14 +25,15 @@ class Alunos extends Component {
     return ( 
       <div>
         <Grid item xs={8}>
-          <List component="nav" aria-label="secondary mailbox folders">
-            <ListItemLink href="#simple-list">
+          <List component="nav" aria-label="secondary mailbox folders">         
             {
-              this.state.alunos.map((aluno, index)=><ListItemText key= {index} primary={aluno.nome} />)
+              this.state.alunos.map((aluno, index)=>
+                  <ListItem key= {index} button>
+                    <ListItemText  primary={aluno.user.nome} />
+                  </ListItem>                 
+                )
             }
-            </ListItemLink>
           </List>
-          <Divider />
         </Grid>       
       </div>
     );

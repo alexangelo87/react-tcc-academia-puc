@@ -71,7 +71,7 @@ import axios from 'axios';
         }
         try{
             let userResponse = await axios.post('http://localhost:8000/users', user);
-            aluno.user = userResponse.data.data._id;
+            aluno.user = userResponse.data._id;
             console.log(userResponse)
             console.log(aluno)
             await axios.post('http://localhost:8000/alunos', aluno)
