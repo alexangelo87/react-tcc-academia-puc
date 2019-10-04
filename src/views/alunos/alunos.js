@@ -19,7 +19,8 @@ class Alunos extends Component {
       this.setState({alunos : response.data});
     });
   }
-  getList = () =>{
+  openDetail(id) {
+
   }
   render() { 
     return ( 
@@ -29,7 +30,7 @@ class Alunos extends Component {
             {
               this.state.alunos.map((aluno, index)=>
                   <ListItem key= {index} button>
-                    <ListItemText  primary={aluno.user.nome} />
+                    <ListItemText  primary={aluno.user.nome} onClick = {this.openDetail(aluno._id)}/>
                   </ListItem>                 
                 )
             }
