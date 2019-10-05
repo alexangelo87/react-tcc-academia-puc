@@ -8,12 +8,13 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import GroupIcon from '@material-ui/icons/Group';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { ListItemIcon, ListSubheader } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import AddIcon from '@material-ui/icons/Add';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -76,9 +77,10 @@ function App(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Alunos', 'Aulas', 'Relatórios', 'Drafts'].map((text, index) => (
+        <ListSubheader>{`Alunos`}</ListSubheader>
+        {['Visualizar Alunos', 'Adicionar Alunos'].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemIcon>{index % 2 === 0 ? <GroupIcon /> : <AddIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -87,7 +89,7 @@ function App(props) {
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <AddIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -151,9 +153,9 @@ function App(props) {
             <div className={classes.toolbar} />
             <div>
               <Route path="/" exact component={Alunos} />
-              {/* <Route path="/alunos" component={Alunos} /> */}
-              <Route path="/alunos/create" component={AlunosCreate} />
-              <Route path="/alunos/details/:id" component={AlunosDetail} />
+              <Route path="/alunos" exact component={Alunos} />
+              <Route path="/alunos/create" exact component={AlunosCreate} />
+              <Route path="/aluno/:id" component={AlunosDetail} />
               <Route path="/aulas" component={Aulas} />
               <Route path="/login" component={Login} />
             </div>

@@ -2,12 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { 
     Grid, 
-    InputLabel, 
-    makeStyles, 
-    Input,
     Button,
     FormControl,
-    TextField
+    TextField,
+    CircularProgress
  } from '@material-ui/core';
  import { createMuiTheme } from '@material-ui/core/styles';
  import { blue } from '@material-ui/core/colors';
@@ -27,15 +25,19 @@ export default function AlunosDetail({ match }) {
       identidade: "",
       cpf: "",
       endereco: "",
+      email:"",
       user: {
         _id: "",
         nome: ""
       }
     });
-    let [somenteLeitura, setSomenteLeitura] = useState(true);
+    const [somenteLeitura, setSomenteLeitura] = useState(true);
+    const [visible, setVisible] = useState(true);
+
     useEffect(() => {
         axios.get(`http://localhost:8000/alunos/${match.params.id}`).then((response) => {
             setDetalhes(response.data);
+            setVisible(false);
         }).catch((error) => console.log(error));
     });
 
@@ -57,6 +59,9 @@ export default function AlunosDetail({ match }) {
     return (
         <div>
             <form onSubmit = {putRequest}>
+                <Grid container justify = "center" xs={8} >
+                    {visible && <CircularProgress />}
+                </Grid>
                 <Grid item xs={6}>
                     <FormControl fullWidth>
                         <TextField
@@ -66,6 +71,17 @@ export default function AlunosDetail({ match }) {
                             value = {detalhes.user.nome}
                             InputProps={{
                             readOnly: somenteLeitura,
+                            }}
+                        />
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            id="standard-read-only-input"
+                            label="Email"
+                            margin="normal"
+                            value = {detalhes.email}
+                            InputProps={{
+                                readOnly: somenteLeitura,
                             }}
                         />
                     </FormControl>

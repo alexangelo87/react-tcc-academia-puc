@@ -56,34 +56,37 @@ import axios from 'axios';
     const viewResult = () => {
         console.log(formValues);
     }
-    const postForm = async () => {
-        let user = {
-                nome: formValues.nome,
-                email: formValues.email,
-                senha: formValues.senha,
-                role: ['ALUNO']
+    const postForm = async (event) => {
+        if(window.confirm("Deseja cadastrar esse aluno?")){  
+            event.preventDefault();    
+            let user = {
+                    nome: formValues.nome,
+                    email: formValues.email,
+                    senha: formValues.senha,
+                    role: ['ALUNO']
+                }
+            let aluno = {
+                identidade : formValues.identidade,
+                cpf: formValues.cpf,
+                endereco: formValues.endereco,
+                user: formValues.user
             }
-        let aluno = {
-            identidade : formValues.identidade,
-            cpf: formValues.cpf,
-            endereco: formValues.endereco,
-            user: formValues.user
-        }
-        try{
-            let userResponse = await axios.post('http://localhost:8000/users', user);
-            aluno.user = userResponse.data._id;
-            console.log(userResponse)
-            console.log(aluno)
-            await axios.post('http://localhost:8000/alunos', aluno)
-            console.log('Aluno cadastrado com sucesso!');
-        } catch (error) {
-            console.log("Erro inesperado: " + error);
+            try{
+                let userResponse = await axios.post('http://localhost:8000/users', user);
+                aluno.user = userResponse.data._id;
+                console.log(userResponse)
+                console.log(aluno)
+                await axios.post('http://localhost:8000/alunos', aluno)
+                window.alert('Aluno cadastrado com sucesso!');
+            } catch (error) {
+                window.alert("Erro inesperado: " + error);
+            }
         }
     }
     return (
         <div className={classes.root}>     
            <Grid item xs={8}>      
-                <div >
+                <form onSubmit={postForm}>
                     <FormControl fullWidth className={classes.margin}>
                         <TextField
                             label="Nome"
@@ -170,12 +173,11 @@ import axios from 'axios';
                     <ThemeProvider theme={theme} className={classes.margin}>
                         <Button variant="contained" 
                             color="primary" 
-                            type= "submit"
-                            onClick = {postForm}>
+                            type= "submit">
                             Criar
                         </Button>
                     </ThemeProvider>
-                </div>
+                </form>
             </Grid>  
         </div>
     );
