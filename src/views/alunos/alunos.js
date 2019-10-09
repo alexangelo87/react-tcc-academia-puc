@@ -8,15 +8,11 @@ import {
   IconButton,
   CircularProgress
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 function openDetail(id) {
   window.location.href =`/aluno/${id}`;
 }
-
-
-
 
 export default function Alunos() {
   const [alunos, setAlunos] = useState([]);
@@ -27,7 +23,7 @@ export default function Alunos() {
       setAlunos(response.data);
       setVisible(false);
     });
-  });
+  },[]);
 
   function deleteAluno(id) {
     if(window.confirm("Deseja realmente deletar este aluno?")) {

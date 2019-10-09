@@ -25,7 +25,6 @@ export default function AlunosDetail({ match }) {
       identidade: "",
       cpf: "",
       endereco: "",
-      email:"",
       user: {
         _id: "",
         nome: ""
@@ -39,7 +38,7 @@ export default function AlunosDetail({ match }) {
             setDetalhes(response.data);
             setVisible(false);
         }).catch((error) => console.log(error));
-    });
+    },[]);
 
     let handleReadOnly = () =>{
         if(somenteLeitura) {
@@ -50,11 +49,34 @@ export default function AlunosDetail({ match }) {
         console.log(somenteLeitura);
     }
 
-    let putRequest = () => {
-        axios.put('http://localhost:8000/alunos', detalhes)
-        .then((response) => {
-            console.log(response);
-        });
+    const handleUpdate = event => {
+        event.preventDefault();
+        setDetalhes({
+            ...detalhes,
+            [event.target.name]: event.target.value,
+         });
+        console.log(detalhes);
+      };
+
+    let putRequest = event => {
+        if(window.confirm("Deseja realmente alterar este aluno?")) {
+            event.preventDefault();
+            let aluno = {
+                id: detalhes.id,
+                identidade: detalhes.identidade,
+                cpf: detalhes.cpf,
+                endereco: detalhes.endereco
+            };
+            axios.put('http://localhost:8000/alunos', aluno)
+            .then((response) => {
+                console.log(response);
+                window.alert("Aluno alterado com sucesso!");
+            })
+            .catch((error)=>{
+                console.log(error);
+                window.alert("Houve um erro ao atualizar o aluno");
+            })
+        }
     }
     return (
         <div>
@@ -65,7 +87,7 @@ export default function AlunosDetail({ match }) {
                 <Grid item xs={6}>
                     <FormControl fullWidth>
                         <TextField
-                            id="standard-read-only-input"
+                            id="nome"
                             label="Nome"
                             margin="normal"
                             value = {detalhes.user.nome}
@@ -76,45 +98,40 @@ export default function AlunosDetail({ match }) {
                     </FormControl>
                     <FormControl fullWidth>
                         <TextField
-                            id="standard-read-only-input"
-                            label="Email"
+                            id="cpf"
+                            label="CPF"
                             margin="normal"
-                            value = {detalhes.email}
+                            value = {detalhes.cpf}
+                            onChange = {handleUpdate}
+                            name = "cpf"
+                            InputProps={{                            
+                                readOnly: somenteLeitura
+                            }}
+                        />
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            id="identidade"
+                            label="Identidade"
+                            margin="normal"
+                            value = {detalhes.identidade}
+                            onChange = {handleUpdate}
                             InputProps={{
+                                name: "identidade",
                                 readOnly: somenteLeitura,
                             }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
                         <TextField
-                            id="standard-read-only-input"
-                            label="CPF"
-                            margin="normal"
-                            value = {detalhes.cpf}
-                            InputProps={{
-                            readOnly: somenteLeitura,
-                            }}
-                        />
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <TextField
-                            id="standard-read-only-input"
-                            label="Identidade"
-                            margin="normal"
-                            value = {detalhes.identidade}
-                            InputProps={{
-                            readOnly: somenteLeitura,
-                            }}
-                        />
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <TextField
-                            id="standard-read-only-input"
+                            id="endereco"
                             label="Endereço"
                             margin="normal"
                             value = {detalhes.endereco}
+                            onChange = {handleUpdate}
                             InputProps={{
-                            readOnly: somenteLeitura,
+                                name: "endereco",
+                                readOnly: somenteLeitura
                             }}
                         />
                     </FormControl>

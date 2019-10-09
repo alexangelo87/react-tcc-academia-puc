@@ -53,9 +53,6 @@ import axios from 'axios';
         }));
         console.log(formValues);
       };
-    const viewResult = () => {
-        console.log(formValues);
-    }
     const postForm = async (event) => {
         if(window.confirm("Deseja cadastrar esse aluno?")){  
             event.preventDefault();    
