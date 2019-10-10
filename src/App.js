@@ -26,6 +26,7 @@ import purple from '@material-ui/core/colors/purple';
 import AlunosCreate from './views/alunos/alunosCreate';
 import AlunosDetail from './views/alunos/alunosDetail';
 import Instrutores from './views/instrutores/instrutores';
+import InstrutoresDetail from './views/instrutores/instrutoresDetail';
 
 const drawerWidth = 240;
 const primary = purple[500]; // #F44336
@@ -158,6 +159,7 @@ function App(props) {
               <Route path="/alunos/create" exact component={AlunosCreate} />
               <Route path="/aluno/:id" component={AlunosDetail} />
               <Route path="/instrutores" component={Instrutores} />
+              <Route path="/instrutor/:id" component={InstrutoresDetail} />
               <Route path="/aulas" component={Aulas} />
               <Route path="/login" component={Login} />
             </div>

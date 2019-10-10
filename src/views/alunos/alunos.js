@@ -10,10 +10,6 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-function openDetail(id) {
-  window.location.href =`/aluno/${id}`;
-}
-
 export default function Alunos() {
   const [alunos, setAlunos] = useState([]);
   const [visible, setVisible] = useState(true);
@@ -38,6 +34,10 @@ export default function Alunos() {
           window.alert("Erro ao excluir o aluno!")
         });
     }
+  }
+
+  function openDetail(id) {
+    window.location.href =`/aluno/${id}`;
   }
 
   return ( 

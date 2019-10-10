@@ -20,6 +20,25 @@ export default function Instrutores() {
           setVisible(false);
         }).catch(error => console.log(`error: ${error}`));
     },[]);
+
+    function deleteInstrutor(id) {
+        if(window.confirm("Deseja realmente deletar este instrutor?")) {
+          axios.delete(`http://localhost:8000/instrutores/${id}`)
+            .then(() => {
+              axios.get('http://localhost:8000/instrutores').then((response) =>{ 
+                setInstrutores(response.data);
+              });
+            })
+            .catch((error)=> {
+              console.log({erro: "Erro ao excluir aluno", detail : error.response.data})
+              window.alert("Erro ao excluir o aluno!")
+            });
+        }
+    }
+
+    function openDetail(id) {
+        window.location.href =`/instrutor/${id}`;
+    }
     
     return (
         <div>
@@ -31,7 +50,14 @@ export default function Instrutores() {
                 <List component="nav" aria-label="instrutores">
                     { instrutores.map((instrutor, index) => 
                         <ListItem key= {index} button>
-                            <ListItemText  primary={instrutor.nome} />
+                            <Grid item xs={9}>
+                                <ListItemText  primary={instrutor.nome} onClick = {()=> openDetail(instrutor._id)}/>
+                            </Grid>
+                            <Grid item xs= {3}>
+                            <IconButton aria-label="delete" onClick = {()=> deleteInstrutor(instrutor._id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                            </Grid>
                         </ListItem>) }
                 </List>
             </Grid>
