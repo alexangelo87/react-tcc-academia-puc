@@ -5,7 +5,10 @@ import {
     Button,
     FormControl,
     TextField,
-    CircularProgress
+    CircularProgress,
+    InputLabel,
+    Select,
+    MenuItem
  } from '@material-ui/core';
  import { createMuiTheme } from '@material-ui/core/styles';
  import { blue } from '@material-ui/core/colors';
@@ -18,26 +21,30 @@ import {
     },
   });
 
-export default function AlunosDetail({ match }) {
+  export default function AulasDetail({ match }) {
 
     const [detalhes, setDetalhes] = useState({
       _id: "",
-      identidade: "",
-      cpf: "",
-      endereco: "",
-      user: {
-        _id: "",
-        nome: ""
-      }
+      nome: "",
+      horarioInicio: "",
+      horarioFim: "",
+    //   aluno: [],
+      instrutor: "Instrutor"
     });
+    const [instrutores, setInstrutores] = useState([{_id: "", nome: "Carregando"}]);
     const [somenteLeitura, setSomenteLeitura] = useState(true);
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/alunos/${match.params.id}`).then((response) => {
+        axios.get(`http://localhost:8000/aulas/${match.params.id}`)
+        .then((response) => {
             setDetalhes(response.data);
-            setVisible(false);
-        }).catch((error) => console.log(error));
+            setVisible(false)
+        })
+        .catch((error) => console.log(error));
+
+        axios.get(`http://localhost:8000/instrutores`)
+        .then((response) => setInstrutores(response.data));
     },[]);
 
     let handleReadOnly = () =>{
@@ -50,26 +57,27 @@ export default function AlunosDetail({ match }) {
             ...detalhes,
             [event.target.name]: event.target.value,
          });
-        console.log(detalhes);
       };
 
     let putRequest = event => {
-        if(window.confirm("Deseja realmente alterar este aluno?")) {
+        if(window.confirm("Deseja realmente alterar este aula?")) {
             event.preventDefault();
-            let aluno = {
-                id: detalhes.id,
-                identidade: detalhes.identidade,
-                cpf: detalhes.cpf,
-                endereco: detalhes.endereco
+            let aula = {
+                id: detalhes._id,
+                nome: detalhes.nome,
+                horarioInicio: detalhes.horarioInicio,
+                horarioFim: detalhes.horarioFim,
+                // aluno: detalhes.aluno,
+                instrutor: detalhes.instrutor
             };
-            axios.put('http://localhost:8000/alunos', aluno)
+            axios.put('http://localhost:8000/aulas', aula)
             .then((response) => {
                 console.log(response);
-                window.alert("Aluno alterado com sucesso!");
+                window.alert("Aula alterada com sucesso!");
             })
             .catch((error)=>{
                 console.log(error);
-                window.alert("Houve um erro ao atualizar o aluno");
+                window.alert("Houve um erro ao atualizar o aula");
             })
         }
     }
@@ -85,7 +93,7 @@ export default function AlunosDetail({ match }) {
                             id="nome"
                             label="Nome"
                             margin="normal"
-                            value = {detalhes.user.nome}
+                            value = {detalhes.nome}
                             InputProps={{
                             readOnly: somenteLeitura,
                             }}
@@ -93,12 +101,12 @@ export default function AlunosDetail({ match }) {
                     </FormControl>
                     <FormControl fullWidth>
                         <TextField
-                            id="cpf"
-                            label="CPF"
+                            id="horarioInicio"
+                            label="Horário Início"
                             margin="normal"
-                            value = {detalhes.cpf}
+                            value = {detalhes.horarioInicio}
                             onChange = {handleUpdate}
-                            name = "cpf"
+                            name = "horarioInicio"
                             InputProps={{                            
                                 readOnly: somenteLeitura
                             }}
@@ -106,29 +114,29 @@ export default function AlunosDetail({ match }) {
                     </FormControl>
                     <FormControl fullWidth>
                         <TextField
-                            id="identidade"
-                            label="Identidade"
+                            id="horarioFim"
+                            label="Horário Fim"
                             margin="normal"
-                            value = {detalhes.identidade}
+                            value = {detalhes.horarioFim}
                             onChange = {handleUpdate}
                             InputProps={{
-                                name: "identidade",
+                                name: "horarioFim",
                                 readOnly: somenteLeitura,
                             }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
                         <TextField
-                            id="endereco"
-                            label="Endereço"
+                            id="instrutor"
+                            label="Instrutor"
                             margin="normal"
-                            value = {detalhes.endereco}
+                            value = {detalhes.instrutor}
                             onChange = {handleUpdate}
                             InputProps={{
-                                name: "endereco",
-                                readOnly: somenteLeitura
+                                name: "instrutor",
+                                readOnly: somenteLeitura,
                             }}
-                        />
+                            />         
                     </FormControl>
                     <ThemeProvider theme={theme}>
                         <Button

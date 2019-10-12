@@ -20,48 +20,20 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import './App.css';
 import Alunos from './views/alunos/alunos';
-import Aulas from './views/aulas';
 import Login from './views/login';
 import purple from '@material-ui/core/colors/purple';
 import AlunosCreate from './views/alunos/alunosCreate';
 import AlunosDetail from './views/alunos/alunosDetail';
 import Instrutores from './views/instrutores/instrutores';
 import InstrutoresDetail from './views/instrutores/instrutoresDetail';
+import MenuDrawer from './components/menuDrawer';
+import useStyles from './styles/styles';
+import InstrutoresCreate from './views/instrutores/instrutoresCreate';
+import Aulas from './views/aulas/aulas';
+import AulasDetail from './views/aulas/aulasDetail';
+import AulasCreate from './views/aulas/aulasCreate';
 
-const drawerWidth = 240;
 const primary = purple[500]; // #F44336
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}));
 
 function App(props) {
 
@@ -74,31 +46,6 @@ function App(props) {
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
-  const drawer = (
-    <div>
-      <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        <ListSubheader>{`Alunos`}</ListSubheader>
-        {['Visualizar Alunos', 'Adicionar Alunos'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <GroupIcon /> : <AddIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <AddIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
-  
   
     return (
       <Router>
@@ -136,7 +83,7 @@ function App(props) {
                   keepMounted: true // Better open performance on mobile.
                 }}
               >
-                {drawer}
+                <MenuDrawer/>
               </Drawer>
             </Hidden>
             <Hidden xsDown implementation="css">
@@ -147,7 +94,7 @@ function App(props) {
                 variant="permanent"
                 open
               >
-                {drawer}
+                <MenuDrawer/>
               </Drawer>
             </Hidden>
           </nav>
@@ -158,9 +105,12 @@ function App(props) {
               <Route path="/alunos" exact component={Alunos} />
               <Route path="/alunos/create" exact component={AlunosCreate} />
               <Route path="/aluno/:id" component={AlunosDetail} />
-              <Route path="/instrutores" component={Instrutores} />
+              <Route path="/instrutores" exact component={Instrutores} />
+              <Route path="/instrutores/create" exact component={InstrutoresCreate} />
               <Route path="/instrutor/:id" component={InstrutoresDetail} />
-              <Route path="/aulas" component={Aulas} />
+              <Route path="/aulas" exact component={Aulas} />
+              <Route path="/aulas/create"exact component={AulasCreate} />
+              <Route path="/aula/:id" component={AulasDetail} />
               <Route path="/login" component={Login} />
             </div>
           </main>

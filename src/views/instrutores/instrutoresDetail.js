@@ -38,11 +38,7 @@ import {
     },[]);
 
     let handleReadOnly = () =>{
-        if(somenteLeitura) {
-            setSomenteLeitura(false);
-        } else {
-            setSomenteLeitura(true);
-        }
+        setSomenteLeitura(!somenteLeitura);
         console.log(somenteLeitura);
     }
 
@@ -109,12 +105,25 @@ import {
                     <FormControl fullWidth>
                         <TextField
                             id="atividade"
-                            label="Identidade"
+                            label="Atividade"
                             margin="normal"
                             value = {detalhes.atividade}
                             onChange = {handleUpdate}
                             InputProps={{
                                 name: "atividade",
+                                readOnly: somenteLeitura,
+                            }}
+                        />
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            id="identidade"
+                            label="Atividade"
+                            margin="normal"
+                            value = {detalhes.identidade}
+                            onChange = {handleUpdate}
+                            InputProps={{
+                                name: "identidade",
                                 readOnly: somenteLeitura,
                             }}
                         />
