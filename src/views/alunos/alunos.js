@@ -6,10 +6,11 @@ import {
   ListItemText,
   Grid,
   IconButton,
-  CircularProgress
+  CircularProgress,
+  Divider
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import useStyles from '../../styles/styles'
+import useStyles from '../../styles/styles';
 
 export default function Alunos() {
   const [alunos, setAlunos] = useState([]);
@@ -48,6 +49,10 @@ export default function Alunos() {
       </Grid>
       
       <Grid item xs={8}>
+        <div>
+          <h2>Alunos</h2>
+          <Divider/>
+        </div>
         <List component="nav" aria-label="secondary mailbox folders">         
           {
             alunos.map((aluno, index)=>

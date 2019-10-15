@@ -1,26 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import GroupIcon from '@material-ui/icons/Group';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import { ListItemIcon, ListSubheader } from '@material-ui/core';
-import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
-import AddIcon from '@material-ui/icons/Add';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {  useTheme } from '@material-ui/core/styles';
 import './App.css';
 import Alunos from './views/alunos/alunos';
-import Login from './views/login';
+import Login from './views/login/login';
 import purple from '@material-ui/core/colors/purple';
 import AlunosCreate from './views/alunos/alunosCreate';
 import AlunosDetail from './views/alunos/alunosDetail';
@@ -32,6 +24,8 @@ import InstrutoresCreate from './views/instrutores/instrutoresCreate';
 import Aulas from './views/aulas/aulas';
 import AulasDetail from './views/aulas/aulasDetail';
 import AulasCreate from './views/aulas/aulasCreate';
+import { isAuthenticated, isAdmin, isAluno } from "./services/auth";
+import PresencaCreate from './views/presencas/presencaCreate';
 
 const primary = purple[500]; // #F44336
 
@@ -41,83 +35,99 @@ function App(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [token, setToken] = React.useState('');
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
-  
-    return (
-      <Router>
-        <div className={classes.root}>
-          <CssBaseline />
-          <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                color={primary}
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap>
-                Academia NewGeneration
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <nav className={classes.drawer} aria-label="mailbox folders">
-            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
-              <Drawer
-                container={container}
-                variant="temporary"
-                anchor={theme.direction === "rtl" ? "right" : "left"}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                classes={{
-                  paper: classes.drawerPaper
-                }}
-                ModalProps={{
-                  keepMounted: true // Better open performance on mobile.
-                }}
-              >
-                <MenuDrawer/>
-              </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Drawer
-                classes={{
-                  paper: classes.drawerPaper
-                }}
-                variant="permanent"
-                open
-              >
-                <MenuDrawer/>
-              </Drawer>
-            </Hidden>
-          </nav>
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <div>
-              <Route path="/" exact component={Alunos} />
-              <Route path="/alunos" exact component={Alunos} />
-              <Route path="/alunos/create" exact component={AlunosCreate} />
-              <Route path="/aluno/:id" component={AlunosDetail} />
-              <Route path="/instrutores" exact component={Instrutores} />
-              <Route path="/instrutores/create" exact component={InstrutoresCreate} />
-              <Route path="/instrutor/:id" component={InstrutoresDetail} />
-              <Route path="/aulas" exact component={Aulas} />
-              <Route path="/aulas/create"exact component={AulasCreate} />
-              <Route path="/aula/:id" component={AulasDetail} />
-              <Route path="/login" component={Login} />
-            </div>
-          </main>
-        </div>
-      </Router>
-    );
-  
+
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        isAuthenticated() && isAdmin() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
+      }
+    />
+  );
+
+  return (
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              color={primary}
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              Academia NewGeneration
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === "rtl" ? "right" : "left"}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper
+              }}
+              ModalProps={{
+                keepMounted: true // Better open performance on mobile.
+              }}
+            >
+              <MenuDrawer/>
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper
+              }}
+              variant="permanent"
+              open
+            >
+              <MenuDrawer/>
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <div>
+            <Switch>
+              <Route path="/login" exact component={Login} />
+              <Route path="/" exact component={Login} />
+              <PrivateRoute path="/alunos" exact component={Alunos} />
+              <PrivateRoute path="/alunos/create" exact component={AlunosCreate} />
+              <PrivateRoute path="/alunos/presencas" exact component={PresencaCreate} />
+              <PrivateRoute path="/aluno/:id" component={AlunosDetail} />
+              <PrivateRoute path="/instrutores" exact component={Instrutores} />
+              <PrivateRoute path="/instrutores/create" exact component={InstrutoresCreate} />
+              <PrivateRoute path="/instrutor/:id" component={InstrutoresDetail} />
+              <PrivateRoute path="/aulas" exact component={Aulas} />
+              <PrivateRoute path="/aulas/create"exact component={AulasCreate} />
+              <PrivateRoute path="/aulas/presenca"exact component={PresencaCreate} />
+              <PrivateRoute path="/aula/:id" component={AulasDetail} />
+              <Route path="*" component={() => <h1>Page not found</h1>} />
+            </Switch>
+          </div>
+        </main>
+      </div>
+    </Router>
+  );
 }
 
 App.propTypes = {
