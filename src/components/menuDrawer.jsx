@@ -47,7 +47,7 @@ export default function MenuDrawer() {
                 className={classes.root}
             >
                 <ListItem button onClick={handleClickAluno}>
-                    <ListItemText primary="Alunos" />
+                   <b><h3>Alunos</h3></b>
                     {openAluno ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={openAluno} timeout="auto" unmountOnExit>
@@ -62,7 +62,7 @@ export default function MenuDrawer() {
                 </Collapse>
 
                 <ListItem button onClick={handleClickInstrutor}>
-                    <ListItemText primary="Instrutores" />
+                    <b><h3>Instrutores</h3></b>
                     {openInstrutor ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={openInstrutor} timeout="auto" unmountOnExit>
@@ -77,7 +77,7 @@ export default function MenuDrawer() {
                 </Collapse>
 
                 <ListItem button onClick={handleClickAula}>
-                    <ListItemText primary="Aulas" />
+                    <b><h3>Aulas</h3></b>
                     {openAula ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={openAula} timeout="auto" unmountOnExit>
@@ -87,6 +87,9 @@ export default function MenuDrawer() {
                         </ListItem>
                         <ListItem button className={classes.nested} onClick={()=>openPage('aulas/create')}>
                             <ListItemText primary="Criar Aula" />
+                        </ListItem>
+                        <ListItem button className={classes.nested} onClick={()=>openPage('aulas/presenca')}>
+                            <ListItemText primary="Registrar Presença" />
                         </ListItem>
                     </List>
                 </Collapse>

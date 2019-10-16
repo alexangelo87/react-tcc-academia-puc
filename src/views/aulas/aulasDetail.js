@@ -6,9 +6,7 @@ import {
     FormControl,
     TextField,
     CircularProgress,
-    InputLabel,
-    Select,
-    MenuItem
+    Divider
  } from '@material-ui/core';
  import { createMuiTheme } from '@material-ui/core/styles';
  import { blue } from '@material-ui/core/colors';
@@ -88,6 +86,11 @@ import {
                     {visible && <CircularProgress />}
                 </Grid>
                 <Grid item xs={6}>
+                    <div>
+                        <h2>Detalhes</h2>
+                        <Button color="primary"> + registrar presença</Button>
+                        <Divider/>
+                    </div>
                     <FormControl fullWidth>
                         <TextField
                             id="nome"

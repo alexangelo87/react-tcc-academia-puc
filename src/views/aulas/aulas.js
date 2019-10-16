@@ -6,7 +6,9 @@ import {
     ListItemText,
     Grid,
     IconButton,
-    CircularProgress
+    CircularProgress,
+    Button,
+    Divider
   } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -47,6 +49,11 @@ export default function Aulas() {
             </Grid>
 
             <Grid item xs={8}>
+                 <div>
+                    <h2>Aulas</h2>
+                    <Button color="primary"> + nova aula</Button>
+                    <Divider/>
+                </div>
                 <List component="nav" aria-label="aulas">
                     { aulas.map((aula, index) => 
                         <ListItem key= {index} button>

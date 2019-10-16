@@ -7,7 +7,8 @@ import {
   Grid,
   IconButton,
   CircularProgress,
-  Divider
+  Divider,
+  Button
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from '../../styles/styles';
@@ -51,6 +52,7 @@ export default function Alunos() {
       <Grid item xs={8}>
         <div>
           <h2>Alunos</h2>
+          <Button color="primary"> + novo aluno</Button>
           <Divider/>
         </div>
         <List component="nav" aria-label="secondary mailbox folders">         

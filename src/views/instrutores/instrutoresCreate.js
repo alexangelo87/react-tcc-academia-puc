@@ -6,7 +6,8 @@ import React, {useState} from 'react';
     Input,
     Button,
     FormControl,
-    TextField
+    TextField,
+    Divider
  } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -67,7 +68,11 @@ import axios from 'axios';
     }
     return (
         <div className={classes.root}>     
-           <Grid item xs={8}>      
+           <Grid item xs={8}>
+                <Grid direction="row" justify="center">
+                    <h2>Adicionar instrutor</h2>
+                    <Divider/>
+                </Grid>           
                 <form onSubmit={postForm}>
                     <FormControl fullWidth className={classes.margin}>
                         <TextField
