@@ -1,16 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
+import { 
+  AppBar, 
+  CssBaseline,
+  Drawer,
+  Hidden,
+  IconButton,
+  Toolbar,
+  Typography 
+} from "@material-ui/core/";
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import {  useTheme } from '@material-ui/core/styles';
-import './App.css';
 import Alunos from './views/alunos/alunos';
 import Login from './views/login/login';
 import purple from '@material-ui/core/colors/purple';
@@ -109,7 +110,9 @@ function App(props) {
           <div>
             <Switch>
               <Route path="/login" exact component={Login} />
-              <Route path="/" exact component={Login} />
+              <Route path="/" exact component={Login} >
+                {isAuthenticated() ? <Redirect to="/alunos" /> : <Login />}
+              </Route>
               <PrivateRoute path="/alunos" exact component={Alunos} />
               <PrivateRoute path="/alunos/create" exact component={AlunosCreate} />
               <PrivateRoute path="/alunos/presencas" exact component={PresencaCreate} />
@@ -121,7 +124,7 @@ function App(props) {
               <PrivateRoute path="/aulas/create"exact component={AulasCreate} />
               <PrivateRoute path="/aulas/presenca"exact component={PresencaCreate} />
               <PrivateRoute path="/aula/:id" component={AulasDetail} />
-              <Route path="*" component={() => <h1>Page not found</h1>} />
+              <Route path="*" component={() => <h1>Página não encontrada</h1>} />
             </Switch>
           </div>
         </main>
