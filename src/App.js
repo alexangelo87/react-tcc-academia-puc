@@ -4,22 +4,14 @@ import PropTypes from 'prop-types';
 import { 
   AppBar, 
   CssBaseline,
-  Drawer,
-  Hidden,
-  IconButton,
-  Toolbar,
-  Typography 
+
 } from "@material-ui/core/";
-import MenuIcon from '@material-ui/icons/Menu';
-import {  useTheme } from '@material-ui/core/styles';
 import Alunos from './views/alunos/alunos';
 import Login from './views/login/login';
-import purple from '@material-ui/core/colors/purple';
 import AlunosCreate from './views/alunos/alunosCreate';
 import AlunosDetail from './views/alunos/alunosDetail';
 import Instrutores from './views/instrutores/instrutores';
 import InstrutoresDetail from './views/instrutores/instrutoresDetail';
-import MenuDrawer from './components/menuDrawer';
 import useStyles from './styles/styles';
 import InstrutoresCreate from './views/instrutores/instrutoresCreate';
 import Aulas from './views/aulas/aulas';
@@ -27,20 +19,12 @@ import AulasDetail from './views/aulas/aulasDetail';
 import AulasCreate from './views/aulas/aulasCreate';
 import { isAuthenticated, isAdmin, isAluno } from "./services/auth";
 import PresencaCreate from './views/presencas/presencaCreate';
+import CustomDrawer from './components/customDrawer';
+import CustomToolbar from './components/customToolbar';
 
-const primary = purple[500]; // #F44336
 
 function App(props) {
-
-  const { container } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen);
-  }
-
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
       {...rest}
@@ -59,51 +43,10 @@ function App(props) {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color={primary}
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              Academia NewGeneration
-            </Typography>
-          </Toolbar>
+          <CustomToolbar/>
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              ModalProps={{
-                keepMounted: true // Better open performance on mobile.
-              }}
-            >
-              <MenuDrawer/>
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              variant="permanent"
-              open
-            >
-              <MenuDrawer/>
-            </Drawer>
-          </Hidden>
+          <CustomDrawer />
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />

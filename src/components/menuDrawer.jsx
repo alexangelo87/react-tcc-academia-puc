@@ -4,18 +4,11 @@ import {
     List,
     Divider,
     ListItem,
-    ListItemIcon,
     ListItemText
 } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import { makeStyles } from '@material-ui/core/styles';
 import useStyles from '../styles/styles';
-import { Link } from "react-router-dom";
 
 function openPage(page) {
     window.location.href =`/${page}`;
@@ -37,9 +30,6 @@ export default function MenuDrawer() {
     const classes = useStyles;
     return (
         <div>
-            <div>
-                
-            </div>
             <Divider/>
             <List
                 component="nav"
