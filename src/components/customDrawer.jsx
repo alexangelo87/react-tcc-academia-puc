@@ -12,6 +12,7 @@ export default function CustomDrawer(props) {
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
+    console.log(mobileOpen)
   }
 
   return (
